@@ -16,6 +16,7 @@ var colors = [
     '#ffc107', '#ff85af', '#FF9800', '#39bbb0'
 ];
 
+//Hàm khởi tạo để connect tới WebSocket
 function connect(event) {
     username = document.querySelector('#name').value.trim();
 
@@ -33,10 +34,10 @@ function connect(event) {
 
 
 function onConnected() {
-    // Subscribe to the Public Topic
+    // Đăng ký vào topic chính là @SenTo của BE
     stompClient.subscribe('/topic/public', onMessageReceived);
 
-    // Tell your username to the server
+    // Nói tên người dùng của bạn với máy chủ
     stompClient.send("/msg/chat.addUser",
         {},
         JSON.stringify({sender: username, type: 'JOIN'})
@@ -110,7 +111,7 @@ function getAvatarColor(messageSender) {
     for (var i = 0; i < messageSender.length; i++) {
         hash = 31 * hash + messageSender.charCodeAt(i);
     }
-    var index = Math.abs(hash % colors);
+    var index = Math.abs(hash % colors.length);
     return colors[index];
 }
 
